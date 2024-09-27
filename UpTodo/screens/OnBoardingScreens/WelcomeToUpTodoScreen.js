@@ -15,10 +15,10 @@ const WelcomeToUpTodoScreen = ({navigation}) => {
                     <Text style={styles.textDescriptionStyle}>Please login to your account or create new account to continue</Text>
                 </View>
                 <View style={styles.buttonContainer}>
-                    <Pressable style={styles.filledPressableButton}>
+                    <Pressable style={styles.filledPressableButton} onPress={() => navigation.navigate('login-screen')}>
                         <Text style={styles.buttonText}>LOGIN</Text>
                     </Pressable>
-                    <Pressable style={styles.hollowPressableButton}>
+                    <Pressable style={styles.hollowPressableButton} onPress={() => navigation.navigate('register-screen')}>
                         <Text style={styles.buttonText}>CREATE ACCOUNT</Text>
                     </Pressable>
                 </View>

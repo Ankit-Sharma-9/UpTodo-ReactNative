@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react'
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, StyleSheet, Text, View } from 'react-native';
 import SplashScreen from './screens/SplashScreen';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import OnBoardingNavigator from './navigation/OnBoardingNavigator';
+import AppNavigator from './navigation/AppNavigator';
+import { UserAuthProvider } from './context/UserAuthContext';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export default function App() {
 
@@ -17,12 +19,16 @@ export default function App() {
   
 
   return (
-    <SafeAreaView style={{flex:1}}>
-      <StatusBar style="dark" backgroundColor='#121212'/>
-      <View style={styles.container}>
-        {isShowSplash ? <SplashScreen /> : <OnBoardingNavigator />}
-      </View>  
-    </SafeAreaView>
+    <UserAuthProvider>
+      <GestureHandlerRootView style={{flex:1}}>
+        <SafeAreaView style={{flex:1}}>
+          <StatusBar style="light" backgroundColor='#121212'/>
+            <KeyboardAvoidingView style={styles.container}>
+              {isShowSplash ? <SplashScreen /> : <AppNavigator />}
+            </KeyboardAvoidingView>  
+        </SafeAreaView>
+      </GestureHandlerRootView>
+    </UserAuthProvider>
   );
 }
 
