@@ -6,6 +6,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import AppNavigator from './navigation/AppNavigator';
 import { UserAuthProvider } from './context/UserAuthContext';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { CurrentTaskProvider } from './context/CurrentTaskContext';
+import { UserTasksProvider } from './context/UserTasksContext';
+import { ModalStateProvider } from './context/ModalOpenStateContext';
 
 export default function App() {
 
@@ -20,14 +23,20 @@ export default function App() {
 
   return (
     <UserAuthProvider>
-      <GestureHandlerRootView style={{flex:1}}>
-        <SafeAreaView style={{flex:1}}>
-          <StatusBar style="light" backgroundColor='#121212'/>
-            <KeyboardAvoidingView style={styles.container}>
-              {isShowSplash ? <SplashScreen /> : <AppNavigator />}
-            </KeyboardAvoidingView>  
-        </SafeAreaView>
-      </GestureHandlerRootView>
+      <ModalStateProvider>
+        <CurrentTaskProvider>
+          <UserTasksProvider>
+            <GestureHandlerRootView style={{flex:1}}>
+              <SafeAreaView style={{flex:1}}>
+                <StatusBar style="light" backgroundColor='#121212'/>
+                  <KeyboardAvoidingView style={styles.container}>
+                    {isShowSplash ? <SplashScreen /> : <AppNavigator />}
+                  </KeyboardAvoidingView>  
+              </SafeAreaView>
+            </GestureHandlerRootView>
+          </UserTasksProvider>
+        </CurrentTaskProvider>
+      </ModalStateProvider>
     </UserAuthProvider>
   );
 }

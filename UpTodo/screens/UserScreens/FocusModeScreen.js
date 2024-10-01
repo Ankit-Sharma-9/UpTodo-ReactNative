@@ -3,8 +3,6 @@ import { Pressable, StyleSheet, Text, View } from "react-native"
 import { CountdownCircleTimer } from "react-native-countdown-circle-timer"
 import { ScrollView } from "react-native-gesture-handler"
 import ApplicationUsageCard from "../../components/FocusModeScreen/ApplicationUsageCard"
-import { Dropdown } from "react-native-paper-dropdown"
-import { Provider } from "react-native-paper"
 import { SelectList } from "react-native-dropdown-select-list"
 import { BarChart } from "react-native-gifted-charts"
 
@@ -14,8 +12,6 @@ const FocusModeScreen = () => {
     const [timerStarted,setTimerStarted] = useState(false);
     const [dropDown, setDropDown] = useState('');
   
-
-    
     const OPTIONS = [
         { value: 'Today', key: '1' },
         { value: 'This Week', key: '2' },
@@ -23,13 +19,69 @@ const FocusModeScreen = () => {
     ];
   
     const data = [
-        {value: 2.5, label: 'SUN', barWidth: 32, frontColor: '#A5A5A5', barBorderRadius: 4, labelTextStyle: {color: '#fff'}},
-        {value: 3.5, label: 'MON', barWidth: 32, frontColor: '#A5A5A5', barBorderRadius: 4, labelTextStyle: {color: '#fff'}},
-        {value: 5, label: 'TUE', barWidth: 32, frontColor: '#A5A5A5', barBorderRadius: 4, labelTextStyle: {color: '#fff'}},
-        {value: 3, label: 'WED', barWidth: 32, frontColor: '#A5A5A5', barBorderRadius: 4, labelTextStyle: {color: '#fff'}},
-        {value: 4, label: 'THU', barWidth: 32, frontColor: '#A5A5A5', barBorderRadius: 4, labelTextStyle: {color: '#fff'}},
-        {value: 4.5, label: 'FRI', barWidth: 32, frontColor: '#8687E7', barBorderRadius: 4, labelTextStyle: {color: '#fff'}},
-        {value: 2, label: 'SAT', barWidth: 32, frontColor: '#A5A5A5', barBorderRadius: 4, labelTextStyle: {color: '#fff'}},
+        {
+            value: 2.5, 
+            label: 'SUN', 
+            barWidth: 32, 
+            frontColor: '#A5A5A5', 
+            barBorderRadius: 4, 
+            labelTextStyle: {color: '#fff'}, 
+            topLabelComponent: () => (<Text style={{color: '#fff', fontSize: 10}}>2h 30m</Text>)
+        },
+        {
+            value: 3.5, 
+            label: 'MON', 
+            barWidth: 32, 
+            frontColor: '#A5A5A5', 
+            barBorderRadius: 4, 
+            labelTextStyle: {color: '#fff'}, 
+            topLabelComponent: () => (<Text style={{color: '#fff', fontSize: 10}}>3h 30m</Text>)
+        },
+        {
+            value: 5, 
+            label: 'TUE', 
+            barWidth: 32, 
+            frontColor: '#A5A5A5', 
+            barBorderRadius: 4, 
+            labelTextStyle: {color: '#fff'}, 
+            topLabelComponent: () => (<Text style={{color: '#fff', fontSize: 10}}>5h</Text>)
+        },
+        {
+            value: 3, 
+            label: 'WED', 
+            barWidth: 32, 
+            frontColor: '#A5A5A5', 
+            barBorderRadius: 4, 
+            labelTextStyle: {color: '#fff'}, 
+            topLabelComponent: () => (<Text style={{color: '#fff', fontSize: 10}}>3h</Text>)
+        },
+        {
+            value: 4, 
+            label: 'THU', 
+            barWidth: 32, 
+            frontColor: '#A5A5A5', 
+            barBorderRadius: 4, 
+            labelTextStyle: {color: '#fff'}, 
+            topLabelComponent: () => (<Text style={{color: '#fff', fontSize: 10}}>4h</Text>)
+        },
+        {
+            value: 4.5, 
+            label: 'FRI', 
+            barWidth: 32, 
+            frontColor: '#8687E7', 
+            barBorderRadius: 4, 
+            labelTextStyle: {color: '#fff'}, 
+            topLabelComponent: () => (<Text style={{color: '#fff', fontSize: 10}}>4h 30m</Text>)
+        },
+        {
+            value: 2, 
+            label: 'SAT', 
+            barWidth: 32, 
+            frontColor: '#A5A5A5', 
+            barBorderRadius: 4, 
+            labelTextStyle: {color: '#fff'}, 
+            topLabelComponent: () => (<Text style={{color: '#fff', fontSize: 10}}>2h</Text>)
+        },
       ];
 
     const toggleTimer = () => {
@@ -84,13 +136,22 @@ const FocusModeScreen = () => {
                     </Pressable>
                 </View>
 
-                <View style={{width: '86%',flexDirection: 'row', justifyContent: 'space-between'}}>
-                    <Text style={styles.headerTextStyle}>Overview</Text>
+                <View 
+                    style={{
+                        width: '86%',
+                        flexDirection: 'row', 
+                        justifyContent: 'space-between'
+                    }}
+                >
+                    <Text 
+                        style={styles.headerTextStyle}
+                    >
+                            Overview
+                    </Text>
                     <View
                         style={{marginVertical: 24}}
                     >
                         <SelectList 
-                            
                             setSelected={val => setDropDown(val)}
                             data={OPTIONS}
                             save="value"
@@ -101,10 +162,8 @@ const FocusModeScreen = () => {
                             dropdownStyles={{backgroundColor: '#646464',color: '#fff',borderColor: '#646464',borderRadius: 4}}
                             dropdownItemStyles={{color: '#fff'}}
                         />
-
                     </View>
                 </View>
-
                 <View style={{left: -28}}>
                     <BarChart 
                         width={300} 
@@ -119,6 +178,7 @@ const FocusModeScreen = () => {
                         yAxisColor='#fff'
                         yAxisTextStyle={{color: '#fff'}}
                         barStyle={{marginBottom: 20}}
+                        topLabelTextStyle={{color: "#fff"}}
                     />
                 </View>
 
@@ -127,11 +187,30 @@ const FocusModeScreen = () => {
                     <View
                         style={styles.applicationUsageContainer}
                     >
-                        <ApplicationUsageCard appIcon={require('../../assets/images/Icons/instagram.png')} appName='Instagram' usageTime='4h'/>
-                        <ApplicationUsageCard appIcon={require('../../assets/images/Icons/twitter.png')} appName='Twitter' usageTime='3h'/>
-                        <ApplicationUsageCard appIcon={require('../../assets/images/Icons/facebook.png')} appName='Facebook' usageTime='1h'/>
-                        <ApplicationUsageCard appIcon={require('../../assets/images/Icons/telegram.png')} appName='Telegram' usageTime='30m'/>
-                        <ApplicationUsageCard appIcon={require('../../assets/images/Icons/gmail.png')} appName='Gmail' usageTime='45m'/>
+                        <ApplicationUsageCard 
+                            appIcon={require('../../assets/images/Icons/instagram.png')} 
+                            appName='Instagram' 
+                            usageTime='4h'/>
+                        <ApplicationUsageCard 
+                            appIcon={require('../../assets/images/Icons/twitter.png')} 
+                            appName='Twitter' 
+                            usageTime='3h'
+                        />
+                        <ApplicationUsageCard 
+                            appIcon={require('../../assets/images/Icons/facebook.png')} 
+                            appName='Facebook' 
+                            usageTime='1h'
+                        />
+                        <ApplicationUsageCard 
+                            appIcon={require('../../assets/images/Icons/telegram.png')} 
+                            appName='Telegram' 
+                            usageTime='30m'
+                        />
+                        <ApplicationUsageCard 
+                            appIcon={require('../../assets/images/Icons/gmail.png')} 
+                            appName='Gmail' 
+                            usageTime='45m'
+                        />
                     </View>
                     
                 </View>
