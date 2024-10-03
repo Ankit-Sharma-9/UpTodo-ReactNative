@@ -67,12 +67,13 @@ const CalenderScreen = () => {
                             id={item.id}
                             taskTitle={item.title} 
                             taskDescription={item.description} 
-                            priority={item.taskPriority} 
+                            taskPriority={item.taskPriority} 
                             taskHour={item.taskHour} 
                             taskMinute={item.taskMinute} 
                             taskCategory={item.taskCategory} 
-                            color={item.color} 
-                            image={item.image} 
+                            taskColor={item.color} 
+                            taskImage={item.image} 
+                            taskDate={item.taskDate}
                             isCompleted={item.isCompleted}
                         />
                     ))}

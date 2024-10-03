@@ -14,3 +14,11 @@ export const getTomorrowDateYYYYMMDD = () => {
     const day = String(today.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
 }
+
+export const convertYYYYMMDDtoDDMMM = (inputDate) => {
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const [year, month, day] = inputDate.split("-");
+    const dayWithoutLeadingZero = parseInt(day);
+    const monthAbbr = months[parseInt(month) - 1];
+    return `${dayWithoutLeadingZero} ${monthAbbr}`;
+}

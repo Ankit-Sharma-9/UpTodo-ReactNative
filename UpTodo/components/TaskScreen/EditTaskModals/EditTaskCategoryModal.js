@@ -1,19 +1,29 @@
 import { Image, Pressable, StyleSheet, Text, View } from "react-native"
-import CategoryButton from "./CategoryButton";
-import { TASK_CATEGORY_ARRAY } from "../../utils/taskCategoryUtils";
-import CustomModal from "../CustomModal";
+import { TASK_CATEGORY_ARRAY } from "../../../utils/taskCategoryUtils";
+import CustomModal from "../../CustomModal";
 import { useState } from "react";
-import CreateNewCategory from "./CreateNewCategory";
+import CreateNewCategory from "../../CategoryScreen/CreateNewCategory";
 import { ScrollView } from "react-native-gesture-handler";
+import CategoryButton from "../../CategoryScreen/CategoryButton";
+import CustomCategoryButton from "../../CategoryScreen/CustomCategoryButton";
+// import CustomCategoryButton from "../../CategoryScreen/CustomCategoryButton";
 
 
 
-const AddCategoryModal = ({visible,setModalVisible}) => {
+const EditTaskCategoryModal = ({visible,setModalVisible,selectedCategory,setCategory,color,setColor,image,setImage}) => {
 
     const [taskCategory, setTaskCategory] = useState([...TASK_CATEGORY_ARRAY]);
     const [addCategoryModal, setAddCategoryModal] = useState(false);
 
     const saveCategory = () => {
+        setModalVisible(false);
+    }
+
+    const handleCancel = () => {
+        setModalVisible(false);
+    }
+
+    const handleEdit = () => {
         setModalVisible(false);
     }
 
@@ -25,20 +35,23 @@ const AddCategoryModal = ({visible,setModalVisible}) => {
                     <Text style={styles.headerText}>Choose Category</Text>
                     <ScrollView>
                         <View style={{flexWrap: 'wrap',flexDirection: 'row',justifyContent: 'center'}}>
-                            {taskCategory.map((item,index) => (
-                                <CategoryButton key={index} category={item}/>
+                            {[...taskCategory].map((item,index) => (
+                                <CustomCategoryButton key={index} selectedCategory={selectedCategory} category={item} color={color} image={image} setColor={setColor} setCategory={setCategory} setImage={setImage}/>
                             ))}
                             <Pressable style={styles.addNewCategoryContainer} onPress={() => {setAddCategoryModal(true)}}>
                                 <View style={styles.addNewCategoryImageContainer}>
-                                    <Image source={require('../../assets/images/Category/add.png')}/>
+                                    <Image source={require('../../../assets/images/Category/add.png')}/>
                                 </View>
                                 <Text style={styles.addNewCategoryText}>Create New</Text>
                             </Pressable>
                         </View>
                     </ScrollView>
                     <View style={styles.buttonsContainer}>
-                        <Pressable onPress={saveCategory} style={styles.buttonFilled}>
-                            <Text style={{color: '#fff',fontSize: 18,textAlign: 'center',}}>Save</Text>
+                        <Pressable style={styles.button} onPress={handleCancel}>
+                            <Text style={{color: '#8687e7',fontSize: 18, textAlign: 'center',}}>Cancel</Text>
+                        </Pressable>
+                        <Pressable style={styles.buttonFilled} onPress={handleEdit}>
+                            <Text style={{color: '#fff',fontSize: 18,textAlign: 'center',}}>Edit</Text>
                         </Pressable>
                     </View>
                 </View>
@@ -70,14 +83,21 @@ const styles = StyleSheet.create({
     },
     buttonsContainer: {
         flexDirection: 'row',
-        width: '100%',
+        backgroundColor: '#363636', 
         justifyContent: 'space-between',
-
+        alignItems: 'center',
     },
     buttonFilled: {
         margin: 12,
-        width: '93%',
+        width: 150,
         backgroundColor: '#8687e7',
+        paddingHorizontal: 24,
+        paddingVertical: 12,
+        borderRadius: 4,
+    },
+    button: {
+        margin: 12,
+        width: 150,
         paddingHorizontal: 24,
         paddingVertical: 12,
         borderRadius: 4,
@@ -103,4 +123,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default AddCategoryModal
+export default EditTaskCategoryModal

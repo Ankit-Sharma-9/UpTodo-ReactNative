@@ -3,8 +3,9 @@ import TaskCardCategory from "../CategoryScreen/TaskCardCategory"
 import { useUserTasksContext } from "../../context/UserTasksContext"
 import { useEffect, useState } from "react"
 import EditTaskModal from "../TaskScreen/EditTaskModal"
+import { convertYYYYMMDDtoDDMMM } from "../../utils/utils"
 
-const TaskCard = ({id,taskHour,taskMinute,taskTitle,taskDescription,taskCategory,priority,color,image,isCompleted}) => {
+const TaskCard = ({id,taskHour,taskMinute,taskTitle,taskDescription,taskCategory,taskDate,taskPriority,taskColor,taskImage,isCompleted}) => {
     const {tasks,toggleTaskComplete} = useUserTasksContext()
     const [isTaskCompleted,setIsTaskCompleted] = useState(isCompleted)
 
@@ -31,17 +32,30 @@ const TaskCard = ({id,taskHour,taskMinute,taskTitle,taskDescription,taskCategory
                     <Text style={styles.taskTitleStyle} numberOfLines={1} ellipsizeMode="tail">{taskTitle}</Text>
                 </View>
                 <View style={{flexDirection: 'row',alignItems: 'center',justifyContent: 'space-between'}}>
-                    <Text style={styles.taskTimeStyle}>Today At {taskHour}:{taskMinute < 10 && '0'}{taskMinute}</Text>
+                    <Text style={styles.taskTimeStyle}>{convertYYYYMMDDtoDDMMM(taskDate)} at {taskHour}:{taskMinute < 10 && '0'}{taskMinute}</Text>
                     <View style={{flexDirection: 'row', gap: 4,}}>
-                        <TaskCardCategory category={taskCategory} color={color} image={image}/>
+                        <TaskCardCategory category={taskCategory} color={taskColor} image={taskImage}/>
                         <View style={styles.priorityIcon}>
                             <Image source={require('../../assets/images/Icons/flag-icon.png')}/>
-                            <Text style={{color: '#fff',fontWeight: '400', fontSize: 18}}>{priority}</Text>
+                            <Text style={{color: '#fff',fontWeight: '400', fontSize: 18}}>{taskPriority}</Text>
                         </View>
                     </View>
                 </View>
             </Pressable>
-            <EditTaskModal visible={editTaskModalVisible} setModalVisible={setEditTaskModalVisible}/>
+            <EditTaskModal 
+                visible={editTaskModalVisible} 
+                setModalVisible={setEditTaskModalVisible}
+                id={id}
+                taskCategory={taskCategory}
+                taskColor={taskColor}
+                taskDate={taskDate}
+                taskDescription={taskDescription}
+                taskHour={taskHour}
+                taskImage={taskImage}
+                taskMinute={taskMinute}
+                taskPriority={taskPriority}
+                taskTitle={taskTitle}
+            />
         </View>
     )
 } 
