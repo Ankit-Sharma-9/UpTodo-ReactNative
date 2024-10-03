@@ -109,7 +109,7 @@ const FocusModeScreen = () => {
                                 fontSize: 42,
                                 lineHeight: 84
                             }}>
-                                {parseInt(remainingTime/60)}:{remainingTime%60}{remainingTime%60 < 10 && '0'}
+                                {parseInt(remainingTime/60)}:{remainingTime%60 < 10 && '0'}{remainingTime%60}
                         </Text>
                     }
                 </CountdownCircleTimer>

@@ -34,7 +34,7 @@ const AddTaskModal = ({modalVisible,setModalVisible}) => {
 
     return (
         <>
-            <CustomModal visible={modalVisible}>
+            <CustomModal visible={modalVisible} >
                 <View style={styles.mainContainer}>
                     <View style={styles.container}>
                         <Text style={{fontSize: 24,color: '#fff'}}>Add Task</Text>
@@ -46,7 +46,10 @@ const AddTaskModal = ({modalVisible,setModalVisible}) => {
                                 <CustomImageButton imageIcon={require('../../assets/images/Icons/tag-icon.png')} onPressHandler={toggleCategoryModalVisibilty}/>
                                 <CustomImageButton imageIcon={require('../../assets/images/Icons/flag-icon.png')} onPressHandler={togglePriorityModalVisibility}/>
                             </View>
-                            <CustomImageButton imageIcon={require('../../assets/images/Icons/send-icon.png')} onPressHandler={handleTaskSubmit}/>
+                            <View style={styles.buttonsLeftContainer}>
+                                <CustomImageButton imageIcon={require('../../assets/images/Icons/arrow-left.png')} onPressHandler={() => {setModalVisible(false)}}/>
+                                <CustomImageButton imageIcon={require('../../assets/images/Icons/send-icon.png')} onPressHandler={handleTaskSubmit}/>
+                            </View>
                         </View>
                     </View>
                 </View>
@@ -62,6 +65,7 @@ const styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
         justifyContent: 'flex-end',
+        backgroundColor: '#00000067'
 
     },
     container: {

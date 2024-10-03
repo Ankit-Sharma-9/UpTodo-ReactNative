@@ -1,24 +1,37 @@
 import { Image, Pressable, StyleSheet, Text, View } from "react-native"
 import TaskCardCategory from "../CategoryScreen/TaskCardCategory"
 import { useUserTasksContext } from "../../context/UserTasksContext"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import EditTaskModal from "../TaskScreen/EditTaskModal"
 
-const TaskCard = ({taskId,taskHour,taskMinute,completedAt,taskTitle,taskDescription,taskCategory,priority,color,image,isCompleted}) => {
-    const {tasks} = useUserTasksContext()
-    const [isTaskCompleted,setIsTaskCompleted] = useState(false)
+const TaskCard = ({id,taskHour,taskMinute,taskTitle,taskDescription,taskCategory,priority,color,image,isCompleted}) => {
+    const {tasks,toggleTaskComplete} = useUserTasksContext()
+    const [isTaskCompleted,setIsTaskCompleted] = useState(isCompleted)
+
+    const [editTaskModalVisible,setEditTaskModalVisible] = useState(false);
     const handleCheckTick = () => {
-        setIsTaskCompleted((current) => !current);
+        toggleTaskComplete(id);
     }  
+
+    const handleEditTaskClick = () => {
+        setEditTaskModalVisible(true);
+    }
+
+    useEffect(() => {
+        setIsTaskCompleted(isCompleted);
+    },[isCompleted])
 
     return (
         <View style={styles.continer}>
-            <Pressable style={isTaskCompleted ? styles.selectedButton : styles.circleButton} onPress={handleCheckTick} />
-            <View>
+            <Pressable onPress={handleCheckTick} style={{height: 64,alignItems: 'center',justifyContent:'center'}}>
+                <View style={isTaskCompleted ? styles.selectedButton : styles.circleButton}/>
+            </Pressable>
+            <Pressable onPress={handleEditTaskClick}>
                 <View>
                     <Text style={styles.taskTitleStyle} numberOfLines={1} ellipsizeMode="tail">{taskTitle}</Text>
                 </View>
                 <View style={{flexDirection: 'row',alignItems: 'center',justifyContent: 'space-between'}}>
-                    <Text style={styles.taskTimeStyle}>Today At {taskHour}:{taskMinute}</Text>
+                    <Text style={styles.taskTimeStyle}>Today At {taskHour}:{taskMinute < 10 && '0'}{taskMinute}</Text>
                     <View style={{flexDirection: 'row', gap: 4,}}>
                         <TaskCardCategory category={taskCategory} color={color} image={image}/>
                         <View style={styles.priorityIcon}>
@@ -27,7 +40,8 @@ const TaskCard = ({taskId,taskHour,taskMinute,completedAt,taskTitle,taskDescript
                         </View>
                     </View>
                 </View>
-            </View>
+            </Pressable>
+            <EditTaskModal visible={editTaskModalVisible} setModalVisible={setEditTaskModalVisible}/>
         </View>
     )
 } 

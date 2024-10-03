@@ -27,7 +27,9 @@ const UserStack = () => {
 
     return (
         <>
-            <AddTaskModal modalVisible={modalVisible} setModalVisible={setModalVisible}/>
+            {modalVisible && 
+                <AddTaskModal modalVisible={modalVisible} setModalVisible={setModalVisible}/>
+            }
             <Tab.Navigator 
                 initialRouteName="Index"
                 screenOptions={{
@@ -67,7 +69,7 @@ const UserStack = () => {
                     component={TaskScreen} 
                     options={{
                         headerShown: false,
-                        tabBarIcon: ({focused}) => (
+                        tabBarIcon: ({}) => (
                             <Pressable
                                 style={{
                                     top: -32,

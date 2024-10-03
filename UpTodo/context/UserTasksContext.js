@@ -1,15 +1,16 @@
 import { createContext, useContext, useState } from "react";
 import { useCurrentTaskContext } from "./CurrentTaskContext";
 import { TASK_CATEGORY } from "../utils/taskCategoryUtils";
+import { userTasks } from "../constants/userTaskConstants";
 
 const UserTasksContext = createContext();
 
 export const UserTasksProvider = ({ children }) => {
-    const [tasks,setTasks] = useState([{title: "Do Math Homework",description: "Do HomeWork from 2 to 5",taskDate: '2024-09-30',taskHour: 16,taskMinute: 45,taskPriority: 1,taskCategory: 'Work',color: '#ff9680',image:  require('.././assets/images/Category/briefcase.png')}])
-    const {title,description,taskDate,taskHour,taskMinute,taskPriority,taskCategory,color,image,resetCurrentTaskContext} = useCurrentTaskContext()
+    const [tasks,setTasks] = useState([...userTasks]);
+    const {title,description,taskDate,taskHour,taskMinute,taskPriority,taskCategory,color,image,resetCurrentTaskContext} = useCurrentTaskContext();
 
     const addTask = () => {
-        setTasks((current) => [...current,{title,description,taskDate,taskHour,taskMinute,taskPriority,taskCategory,color,image}]);
+        setTasks((current) => [...current,{title,description,taskDate,taskHour,taskMinute,taskPriority,taskCategory,color,image,isCompleted:0,id:tasks.length+1}]);
         resetCurrentTaskContext();
         console.log(tasks)
     }
@@ -22,8 +23,12 @@ export const UserTasksProvider = ({ children }) => {
 
     }
 
+    const toggleTaskComplete = (id) => {
+        setTasks(prevTasks => prevTasks.map((task) => id === task.id ? {...task,isCompleted: task.isCompleted === 1 ? 0 : 1} : task));
+    }
+
     return (
-        <UserTasksContext.Provider value={{tasks,addTask,deleteTask,updateTask}}>
+        <UserTasksContext.Provider value={{tasks,setTasks,addTask,deleteTask,updateTask,toggleTaskComplete}}>
             {children}
         </UserTasksContext.Provider>
     )

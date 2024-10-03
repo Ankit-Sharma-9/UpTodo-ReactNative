@@ -45,7 +45,6 @@ const AddDateCalendarModal = ({visible,setModalVisible}) => {
                             <Text style={{color: '#fff',fontSize: 18,textAlign: 'center',}}>Choose Time</Text>
                         </Pressable>
                     </View>
-
                 </View>
             </View>
         </CustomModal>

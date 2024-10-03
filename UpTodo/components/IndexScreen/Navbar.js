@@ -1,14 +1,16 @@
-import { Image, StyleSheet, Text, View } from "react-native"
+import { Image, Pressable, StyleSheet, Text, View } from "react-native"
 import ProfilePicture from "../ProfilePicture"
 
 
-const Navbar = ({navbarTitle}) => {
+const Navbar = ({navbarTitle,filterOnPressHandler}) => {
     return (
         <View style={styles.container}>
-            <Image 
-                style={styles.hamburgerIconStyle}
-                source={require('../../assets/images/Icons/sort.png')}
-            />
+            <Pressable onPress={filterOnPressHandler}>
+                <Image 
+                    style={styles.hamburgerIconStyle}
+                    source={require('../../assets/images/Icons/sort.png')}
+                />
+            </Pressable>
             <Text 
                 style={styles.titleTextStyle}
             >

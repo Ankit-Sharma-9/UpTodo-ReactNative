@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View } from "react-native"
+import Colors from "../../assets/Colors"
 
 const TaskScreen = () => {
     return (
@@ -11,7 +12,7 @@ const TaskScreen = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#121212',
+        backgroundColor: Colors.SCREEN_BACKGROUND,
         alignItems: 'center',
         justifyContent: 'space-between',
     },

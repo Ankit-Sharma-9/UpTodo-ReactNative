@@ -12,6 +12,7 @@ import { ScrollView } from "react-native-gesture-handler";
 
 const AddCategoryModal = ({visible,setModalVisible}) => {
 
+    const [taskCategory, setTaskCategory] = useState([...TASK_CATEGORY_ARRAY]);
     const [addCategoryModal, setAddCategoryModal] = useState(false);
 
     const saveCategory = () => {
@@ -21,12 +22,12 @@ const AddCategoryModal = ({visible,setModalVisible}) => {
     return (
         <CustomModal visible={visible}>    
             <View style={styles.container}>
-                    <View style={{backgroundColor: '#363636',width: '90%',borderRadius: 8}}>
-                        <View style={{height: 8}}/>
-                        <Text style={styles.headerText}>Choose Category</Text>
-                <ScrollView>
+                <View style={{backgroundColor: '#363636',width: '90%',borderRadius: 8}}>
+                    <View style={{height: 8}}/>
+                    <Text style={styles.headerText}>Choose Category</Text>
+                    <ScrollView>
                         <View style={{flexWrap: 'wrap',flexDirection: 'row',justifyContent: 'center'}}>
-                            {TASK_CATEGORY_ARRAY.map((item,index) => (
+                            {taskCategory.map((item,index) => (
                                 <CategoryButton key={index} category={item}/>
                             ))}
                             <Pressable style={styles.addNewCategoryContainer} onPress={() => {setAddCategoryModal(true)}}>
@@ -36,15 +37,15 @@ const AddCategoryModal = ({visible,setModalVisible}) => {
                                 <Text style={styles.addNewCategoryText}>Create New</Text>
                             </Pressable>
                         </View>
-                </ScrollView>
-                        <View style={styles.buttonsContainer}>
-                            <Pressable onPress={saveCategory} style={styles.buttonFilled}>
-                                <Text style={{color: '#fff',fontSize: 18,textAlign: 'center',}}>Save</Text>
-                            </Pressable>
-                        </View>
+                    </ScrollView>
+                    <View style={styles.buttonsContainer}>
+                        <Pressable onPress={saveCategory} style={styles.buttonFilled}>
+                            <Text style={{color: '#fff',fontSize: 18,textAlign: 'center',}}>Save</Text>
+                        </Pressable>
                     </View>
+                </View>
             </View>
-            <CreateNewCategory visible={addCategoryModal} setModalVisible={setAddCategoryModal}/>
+            <CreateNewCategory visible={addCategoryModal} setModalVisible={setAddCategoryModal} addNewCategory={setTaskCategory}/>
         </CustomModal>
     )
 }

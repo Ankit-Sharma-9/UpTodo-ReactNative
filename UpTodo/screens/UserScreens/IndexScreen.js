@@ -3,16 +3,72 @@ import Navbar from "../../components/IndexScreen/Navbar"
 import { useUserTasksContext } from "../../context/UserTasksContext"
 import TaskCard from "../../components/IndexScreen/TaskCard"
 import RNPickerSelect from 'react-native-picker-select'
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import Colors from "../../assets/Colors"
+import { it } from "react-native-paper-dates"
+import { Searchbar } from "react-native-paper"
+import { FlatList } from "react-native-gesture-handler"
 
 const IndexScreen = () => {
-    const { tasks } = useUserTasksContext()
-    const inCompleteTasks = tasks;
-    const completeTasks = tasks;
+    const { tasks, setTasks } = useUserTasksContext()
+    const [currentUserTasks,setCurrentUserTasks] = useState(tasks.filter(item => item.isCompleted === 0));
+
+    const [completedTasks,setCompletedTask] = useState([])
+    const [searchedTasks,setSearchedTasks] = useState([])
+
+    const [searchTaskTitle,setSearchTaskTitle] = useState('');
+
+    useEffect(() => {
+        setCurrentUserTasks(tasks.filter(item => item.isCompleted === 0));
+        setCompletedTask(tasks.filter(item => item.isCompleted === 1));
+        setSearchedTasks(tasks.filter((item) => item.title.toLowerCase().includes(searchTaskTitle?.trim().toLowerCase())))
+    },[tasks])
+
+    const filterOnPressHandler = () => {
+        setTasks((prev) => [...prev].sort((a,b) => a.taskPriority - b.taskPriority));
+    }
+
+
+
+    const onSearchHandler = (query) => {
+        setSearchTaskTitle(query);
+        setSearchedTasks(tasks.filter((item) => item.title.toLowerCase().includes(query.trim().toLowerCase())))
+    }
 
     return (
         <View style={styles.container}>
-            <Navbar navbarTitle='Index'/>
+            <Navbar navbarTitle='Index' filterOnPressHandler={filterOnPressHandler}/>
+
+            <Searchbar 
+                placeholder="Search for your task..."
+                value={searchTaskTitle}
+                onChangeText={onSearchHandler}
+                style={styles.searchBar}
+                inputStyle={{color: Colors.DEFAULT_TEXT_COLOR,fontSize: 18}}
+                placeholderTextColor={Colors.DEFAULT_TEXT_COLOR}
+                
+            />
+            {
+                searchedTasks.length > 0 && searchTaskTitle.trim().length > 0 && (
+                    <ScrollView style={styles.searchedResultsContainer}>
+                        {searchedTasks.map((item) => 
+                            (<TaskCard 
+                                key={item.id} 
+                                id={item.id} 
+                                taskTitle={item.title} 
+                                taskDescription={item.description} 
+                                priority={item.taskPriority} 
+                                taskHour={item.taskHour} 
+                                taskMinute={item.taskMinute} 
+                                taskCategory={item.taskCategory} 
+                                color={item.color} 
+                                image={item.image} 
+                                isCompleted={item.isCompleted}
+                            />)
+                        )}
+                    </ScrollView>
+                )
+            }
             <RNPickerSelect 
                 style={styles.pickerContainer}
                 onValueChange={(value) => console.log(value)}
@@ -25,8 +81,36 @@ const IndexScreen = () => {
             {tasks.length !== 0 ? 
             (
                 <ScrollView style={{flex: 1,width: '100%'}}>
-                    {inCompleteTasks.map((item,index) => (
-                        <TaskCard key={index} taskTitle={item.title} taskDescription={item.description} priority={item.taskPriority} taskHour={item.taskHour} taskMinute={item.taskMinute} taskCategory={item.taskCategory} color={item.color} image={item.image}/>
+                    {currentUserTasks.map((item) => (
+                        <TaskCard 
+                            key={item.id} 
+                            id={item.id} 
+                            taskTitle={item.title} 
+                            taskDescription={item.description} 
+                            priority={item.taskPriority} 
+                            taskHour={item.taskHour} 
+                            taskMinute={item.taskMinute} 
+                            taskCategory={item.taskCategory} 
+                            color={item.color} 
+                            image={item.image} 
+                            isCompleted={item.isCompleted}
+                        />
+                    ))}
+                    <View style={{height: 100}}/>
+                    {completedTasks.map((item) => (
+                        <TaskCard 
+                            key={item.id} 
+                            id={item.id} 
+                            taskTitle={item.title} 
+                            taskDescription={item.description} 
+                            priority={item.taskPriority} 
+                            taskHour={item.taskHour} 
+                            taskMinute={item.taskMinute} 
+                            taskCategory={item.taskCategory} 
+                            color={item.color} 
+                            image={item.image} 
+                            isCompleted={item.isCompleted}
+                        />
                     ))}
                     <View style={{height: 308}}/>
                 </ScrollView>
@@ -46,7 +130,7 @@ const IndexScreen = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#121212',
+        backgroundColor: Colors.SCREEN_BACKGROUND,
         alignItems: 'center',
         justifyContent: 'start',
     },
@@ -61,15 +145,32 @@ const styles = StyleSheet.create({
         color: '#fff',
     },
     textHeader: {
-        color: '#ffffffde',
+        color: Colors.DEFAULT_TEXT_COLOR,
         fontSize: 20,
         fontWeight: '400',
         lineHeight: 30,
     },
     textDescription: {
-        color: '#ffffffde',
+        color: Colors.DEFAULT_TEXT_COLOR,
         fontSize: 16,
         lineHeight: 24
+    },
+    searchBar: {
+        color: Colors.DEFAULT_TEXT_COLOR,
+        backgroundColor: Colors.DEFAULT_BACKGROUND_SECONDARY,
+        borderColor: Colors.DEFAULT_BORDER_COLOR,
+        borderWidth: 1,
+        borderRadius: 4,
+        width: '90%'
+    },
+    searchedResultsContainer: {
+        zIndex: 11,
+        width:'100%',
+        maxHeight: 200,
+        backgroundColor: '#232323',
+        borderBottomWidth: 2,
+        paddingBottom: 2,
+        borderColor: '#232323',
     }
 })
 
