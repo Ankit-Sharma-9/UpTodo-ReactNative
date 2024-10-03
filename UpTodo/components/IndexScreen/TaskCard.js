@@ -6,10 +6,11 @@ import EditTaskModal from "../TaskScreen/EditTaskModal"
 import { convertYYYYMMDDtoDDMMM } from "../../utils/utils"
 
 const TaskCard = ({id,taskHour,taskMinute,taskTitle,taskDescription,taskCategory,taskDate,taskPriority,taskColor,taskImage,isCompleted}) => {
-    const {tasks,toggleTaskComplete} = useUserTasksContext()
+    const {toggleTaskComplete} = useUserTasksContext()
     const [isTaskCompleted,setIsTaskCompleted] = useState(isCompleted)
 
     const [editTaskModalVisible,setEditTaskModalVisible] = useState(false);
+    
     const handleCheckTick = () => {
         toggleTaskComplete(id);
     }  
@@ -32,7 +33,7 @@ const TaskCard = ({id,taskHour,taskMinute,taskTitle,taskDescription,taskCategory
                     <Text style={styles.taskTitleStyle} numberOfLines={1} ellipsizeMode="tail">{taskTitle}</Text>
                 </View>
                 <View style={{flexDirection: 'row',alignItems: 'center',justifyContent: 'space-between'}}>
-                    <Text style={styles.taskTimeStyle}>{convertYYYYMMDDtoDDMMM(taskDate)} at {taskHour}:{taskMinute < 10 && '0'}{taskMinute}</Text>
+                    <Text style={styles.taskTimeStyle}>{taskDate !== undefined && convertYYYYMMDDtoDDMMM(taskDate)} at {taskHour}:{taskMinute < 10 && '0'}{taskMinute}</Text>
                     <View style={{flexDirection: 'row', gap: 4,}}>
                         <TaskCardCategory category={taskCategory} color={taskColor} image={taskImage}/>
                         <View style={styles.priorityIcon}>
@@ -55,6 +56,7 @@ const TaskCard = ({id,taskHour,taskMinute,taskTitle,taskDescription,taskCategory
                 taskMinute={taskMinute}
                 taskPriority={taskPriority}
                 taskTitle={taskTitle}
+                isCompleted={isCompleted}
             />
         </View>
     )

@@ -3,9 +3,19 @@ import ProfilePicture from "../../components/ProfilePicture"
 import { useAuthContext } from "../../context/UserAuthContext"
 import { ScrollView } from "react-native-gesture-handler";
 import ProfileButton from "../../components/ProfileScreen/ProfileButton";
+import { useState } from "react";
+import AppSettingsModal from "../../components/ProfileScreen/AppSettingsModal";
+import ChangeAccountPasswordModal from "../../components/ProfileScreen/ChangeAccountPasswordModal";
+import ChangeAccountNameModal from "../../components/ProfileScreen/ChangeAccountNameModal";
+import ChangeAccountImageModal from "../../components/ProfileScreen/ChangeAccountImageModal";
 
 const UserProfileScreen = () => {
     const { user } = useAuthContext();
+    const [openAppSettingsModal,setOpenAppSettingsModal] = useState(false);
+    const [openChangePasswordModal,setOpenChnagePasswordModal] = useState(false);
+    const [openChangeAccountNameModal,setOpenChnageAccountNameModal] = useState(false);
+    const [openChangeAccountImageModal,setOpenChangeAccountImageModal] = useState(false)
+
 
     return (
         <ScrollView style={{flex: 1, backgroundColor:"#121212"}}>
@@ -56,6 +66,8 @@ const UserProfileScreen = () => {
                     <ProfileButton 
                         buttonIcon={require('../../assets/images/Icons/settings-icon.png')} 
                         buttonText='App settings' 
+                        setModalVisible={setOpenAppSettingsModal}
+                        isModal={true}
                     />
                 </View>
                 <View>
@@ -68,15 +80,20 @@ const UserProfileScreen = () => {
                         <ProfileButton 
                             buttonIcon={require('../../assets/images/Icons/user-icon.png')} 
                             buttonText='Change account name' 
-                            
+                            isModal={true}
+                            setModalVisible={setOpenChnageAccountNameModal}
                         />
                         <ProfileButton 
                             buttonIcon={require('../../assets/images/Icons/key-icon.png')} 
                             buttonText='Change account password' 
+                            isModal={true}
+                            setModalVisible={setOpenChnagePasswordModal}
                         />
                         <ProfileButton 
                             buttonIcon={require('../../assets/images/Icons/camera-icon.png')} 
                             buttonText='Change account Image' 
+                            isModal={true}
+                            setModalVisible={setOpenChangeAccountImageModal}
                         />    
                     </View>
                 </View>
@@ -85,15 +102,34 @@ const UserProfileScreen = () => {
                         style={{marginVertical: 24,color:'#afafaf',fontSize:14,lineHeight:21}}
                     >Uptodo</Text>
                     <View style={{gap: 8, width: '100%'}}>
-                        <ProfileButton buttonIcon={require('../../assets/images/Icons/user-icon.png')} buttonText='About US' />
-                        <ProfileButton buttonIcon={require('../../assets/images/Icons/info-circle-icon.png')} buttonText='FAQ' />
-                        <ProfileButton buttonIcon={require('../../assets/images/Icons/flash-icon.png')} buttonText='Help & Feedback' />    
-                        <ProfileButton buttonIcon={require('../../assets/images/Icons/like-icon.png')} buttonText='Support US' />
-                        <ProfileButton buttonIcon={require('../../assets/images/Icons/logout-icon.png')} buttonText='Log out' color={"#FF4949"} showRightIcon={false}/>    
+                        <ProfileButton 
+                            buttonIcon={require('../../assets/images/Icons/user-icon.png')} 
+                            buttonText='About US' 
+                        />
+                        <ProfileButton 
+                            buttonIcon={require('../../assets/images/Icons/info-circle-icon.png')} 
+                            buttonText='FAQ' 
+                        />
+                        <ProfileButton 
+                            buttonIcon={require('../../assets/images/Icons/flash-icon.png')} 
+                            buttonText='Help & Feedback' 
+                        />    
+                        <ProfileButton 
+                            buttonIcon={require('../../assets/images/Icons/like-icon.png')}
+                            buttonText='Support US' 
+                        />
+                        <ProfileButton 
+                            buttonIcon={require('../../assets/images/Icons/logout-icon.png')} 
+                            buttonText='Log out' color={"#FF4949"} showRightIcon={false}
+                        />    
                     </View>
                 </View>
             </View>
             <View style={{height: 108}}/>
+            <AppSettingsModal visible={openAppSettingsModal} setModalVisible={setOpenAppSettingsModal}/>
+            <ChangeAccountPasswordModal visible={openChangePasswordModal} setModalVisible={setOpenChnagePasswordModal} />
+            <ChangeAccountNameModal visible={openChangeAccountNameModal} setModalVisible={setOpenChnageAccountNameModal} />
+            <ChangeAccountImageModal visible={openChangeAccountImageModal} setModalVisible={setOpenChangeAccountImageModal} />
         </ScrollView>
     )
 }

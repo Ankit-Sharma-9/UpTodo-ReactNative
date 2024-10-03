@@ -18,7 +18,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.truefuego.UpTodo"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -26,6 +27,11 @@
     "plugins": [
       "@react-native-firebase/app",
       "@react-native-firebase/auth"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "a85c1a66-db46-4207-8b96-cd51715132ab"
+      }
+    }
   }
 }

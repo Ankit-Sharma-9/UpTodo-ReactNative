@@ -22,3 +22,10 @@ export const convertYYYYMMDDtoDDMMM = (inputDate) => {
     const monthAbbr = months[parseInt(month) - 1];
     return `${dayWithoutLeadingZero} ${monthAbbr}`;
 }
+
+export const convertDateToYYYYMMDD = (inputDate) => {
+    const year = inputDate.getFullYear();
+    const month = String(inputDate.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+    const day = String(inputDate.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}

@@ -8,6 +8,7 @@ import { useState } from "react";
 import AddCategoryModal from "../CategoryScreen/AddCategoryModal";
 import AddDateCalendarModal from "../AddDateCalendarModal";
 import AddTaskPriorityModal from "../AddTaskPriorityModal";
+import AddTimeModal from "../AddTimeModal";
 
 
 const AddTaskModal = ({modalVisible,setModalVisible}) => {
@@ -55,7 +56,7 @@ const AddTaskModal = ({modalVisible,setModalVisible}) => {
                 </View>
             </CustomModal>
             <AddCategoryModal visible={openCategoryModal} setModalVisible={setOpenCategoryModal}/>
-            <AddDateCalendarModal visible={openCalendarModal} setModalVisible={setOpenCalendarModal}/>
+            {openCalendarModal && <AddTimeModal visible={openCalendarModal} setModalVisible={setOpenCalendarModal}/>}
             <AddTaskPriorityModal visible={openPriorityModal} setModalVisible={setOpenPriorityModal}/>
         </>
     )

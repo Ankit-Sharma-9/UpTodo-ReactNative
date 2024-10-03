@@ -1,9 +1,10 @@
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { ca } from "react-native-paper-dates";
 
 const CustomCategoryButton = ({category,selectedCategory,setCategory,setColor,setImage}) => {
     const handleOnClick = () => {
-        if(selectedCategory?.title === category?.title) {
-            setCategory({});
+        if(selectedCategory === category?.title) {
+            setCategory('');
             setColor('');
             setImage('');
         }
@@ -15,7 +16,7 @@ const CustomCategoryButton = ({category,selectedCategory,setCategory,setColor,se
     }
 
     return (
-        <Pressable style={[styles.container,{backgroundColor: `${category?.title === selectedCategory?.title ? '#676767' : '#363636'}`}]} onPress={handleOnClick}>
+        <Pressable style={[styles.container,{backgroundColor: `${category?.title === selectedCategory ? '#676767' : '#363636'}`}]} onPress={handleOnClick}>
             <View style={[styles.imageContainer,{backgroundColor: category?.color}]}>
                 <Image source={category?.image}/>
             </View>

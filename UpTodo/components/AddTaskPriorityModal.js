@@ -22,19 +22,19 @@ const AddTaskPriorityModal = ({visible,setModalVisible}) => {
                     <View style={{height: 8}}/>
                     <Text style={styles.headerText}>Task Priority</Text>
                     <View style={{gap: 12,alignItems: 'flex-start',margin: 12}}>
-                        <View style={{flexDirection: 'row', gap: 12}}>
+                        <View style={{flexDirection: 'row', gap: 9}}>
                             <TaskPriorityButton taskPriorityNumber={1}/>
                             <TaskPriorityButton taskPriorityNumber={2}/>
                             <TaskPriorityButton taskPriorityNumber={3}/>
                             <TaskPriorityButton taskPriorityNumber={4}/>
                         </View>
-                        <View style={{flexDirection: 'row', gap: 12}}>
+                        <View style={{flexDirection: 'row', gap: 9}}>
                             <TaskPriorityButton taskPriorityNumber={5}/>
                             <TaskPriorityButton taskPriorityNumber={6}/>
                             <TaskPriorityButton taskPriorityNumber={7}/>
                             <TaskPriorityButton taskPriorityNumber={8}/>
                         </View>
-                        <View style={{flexDirection: 'row', gap: 12}}>
+                        <View style={{flexDirection: 'row', gap: 9}}>
                             <TaskPriorityButton taskPriorityNumber={9}/>
                             <TaskPriorityButton taskPriorityNumber={10}/>
                         </View>

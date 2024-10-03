@@ -1,16 +1,10 @@
 import { useState } from 'react'
 import { Image, Modal, Pressable, StyleSheet, Text, View } from 'react-native'
 
-const ProfileButton = ({buttonText,buttonIcon,showRightIcon= true,navigation,isModal=false,modalContent,navigateTo,...textStyles}) => {
-    const [modalVisible,setModalVisible] = useState(false)
-
+const ProfileButton = ({buttonText,buttonIcon,showRightIcon= true,isModal=false,setModalVisible,...textStyles}) => {
     const handleOnPress = () => {
-        if(isModal) {
+        if(isModal)
             setModalVisible(true);
-        }
-        else if(navigateTo){
-            navigation.navigate(navigateTo)
-        }
     }
 
     return (
@@ -37,17 +31,6 @@ const ProfileButton = ({buttonText,buttonIcon,showRightIcon= true,navigation,isM
             {showRightIcon && <Image 
                 source={require('../../assets/images/Icons/arrow-right.png')}
             />}
-
-            {isModal && (
-                <Modal
-                    animationType="fade"
-                    transparent={true}
-                    visible={modalVisible}
-                    onRequestClose={() => setModalVisible(false)}
-                >
-                    {modalContent}
-                </Modal>
-            )}
         </Pressable>
     )
 }

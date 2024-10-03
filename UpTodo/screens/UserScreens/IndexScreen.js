@@ -28,8 +28,6 @@ const IndexScreen = () => {
         setTasks((prev) => [...prev].sort((a,b) => a.taskPriority - b.taskPriority));
     }
 
-
-
     const onSearchHandler = (query) => {
         setSearchTaskTitle(query);
         setSearchedTasks(tasks.filter((item) => item.title.toLowerCase().includes(query.trim().toLowerCase())))
@@ -57,30 +55,35 @@ const IndexScreen = () => {
                                 id={item.id} 
                                 taskTitle={item.title} 
                                 taskDescription={item.description} 
-                                priority={item.taskPriority} 
+                                taskPriority={item.taskPriority} 
                                 taskHour={item.taskHour} 
                                 taskMinute={item.taskMinute} 
                                 taskCategory={item.taskCategory} 
-                                color={item.color} 
-                                image={item.image} 
+                                taskColor={item.color} 
+                                taskImage={item.image} 
                                 isCompleted={item.isCompleted}
+                                taskDate={item.taskDate}
                             />)
                         )}
                     </ScrollView>
                 )
             }
-            <RNPickerSelect 
-                style={styles.pickerContainer}
-                onValueChange={(value) => console.log(value)}
-                items={[
-                    { label: 'Today', value: 'Today' },
-                    { label: 'Tomorrow', value: 'Tomorrow' },
-                    { label: 'Yeasterday', value: 'Yeasterday' },
-                ]}
-            />
             {tasks.length !== 0 ? 
             (
                 <ScrollView style={{flex: 1,width: '100%'}}>
+                    <RNPickerSelect 
+                        style={styles.pickerContainer}
+                        activeItemStyle={{color: Colors.DEFAULT_TEXT_COLOR}}
+                        dropdownItemStyle={{backgroundColor:'#000',color: '#fff'}}
+                        onValueChange={(value) => console.log(value)}
+                        items={[
+                            { label: 'Tomorrow', value: 'Tomorrow' },
+                            { label: 'Yeasterday', value: 'Yeasterday' },
+                        ]}
+                        placeholder={{
+                            label: 'Today',
+                            value: 'Today'}}
+                    />
                     {currentUserTasks.map((item) => (
                         <TaskCard 
                             key={item.id} 
@@ -143,8 +146,9 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     pickerContainer: {
-        width: 100,
+        // width: 100,
         color: '#fff',
+        width: 20
     },
     textHeader: {
         color: Colors.DEFAULT_TEXT_COLOR,

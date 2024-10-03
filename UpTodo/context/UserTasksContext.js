@@ -16,11 +16,12 @@ export const UserTasksProvider = ({ children }) => {
     }
 
     const deleteTask = (id) => {
-
+        setTasks((prevItems) => prevItems.filter(item => item.id !== id));
+        console.log('Task Deleted Success');
     }
 
-    const updateTask = () => {
-
+    const updateTask = (task) => {
+        setTasks(prev => prev.map(item => item.id === task.id ? task : item));
     }
 
     const toggleTaskComplete = (id) => {

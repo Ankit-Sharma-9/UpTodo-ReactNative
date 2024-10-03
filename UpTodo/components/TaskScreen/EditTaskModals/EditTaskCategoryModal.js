@@ -4,31 +4,33 @@ import CustomModal from "../../CustomModal";
 import { useState } from "react";
 import CreateNewCategory from "../../CategoryScreen/CreateNewCategory";
 import { ScrollView } from "react-native-gesture-handler";
-import CategoryButton from "../../CategoryScreen/CategoryButton";
 import CustomCategoryButton from "../../CategoryScreen/CustomCategoryButton";
-// import CustomCategoryButton from "../../CategoryScreen/CustomCategoryButton";
 
-
-
-const EditTaskCategoryModal = ({visible,setModalVisible,selectedCategory,setCategory,color,setColor,image,setImage}) => {
+const EditTaskCategoryModal = ({visible,setModalVisible,mainCategory,mainColor,mainImage,selectedCategory,setCategory,color,setColor,image,setImage}) => {
 
     const [taskCategory, setTaskCategory] = useState([...TASK_CATEGORY_ARRAY]);
     const [addCategoryModal, setAddCategoryModal] = useState(false);
-
-    const saveCategory = () => {
-        setModalVisible(false);
-    }
+    const [currentChosenCategory,setCurrentChosenCategory] = useState(mainCategory);
+    const [currentChosenColor,setCurrentChosenColor] = useState(mainColor);
+    const [currentChosenImage,setCurrentChosenImage] = useState(mainImage);
 
     const handleCancel = () => {
+        setCategory(mainCategory);
+        setColor(mainColor);
+        setImage(mainImage);
         setModalVisible(false);
     }
 
     const handleEdit = () => {
+        setCategory(currentChosenCategory)
+        setColor(currentChosenColor);
+        setImage(currentChosenImage);
         setModalVisible(false);
     }
 
     return (
         <CustomModal visible={visible}>    
+            <View style={styles.modalWrapper}>
             <View style={styles.container}>
                 <View style={{backgroundColor: '#363636',width: '90%',borderRadius: 8}}>
                     <View style={{height: 8}}/>
@@ -36,7 +38,7 @@ const EditTaskCategoryModal = ({visible,setModalVisible,selectedCategory,setCate
                     <ScrollView>
                         <View style={{flexWrap: 'wrap',flexDirection: 'row',justifyContent: 'center'}}>
                             {[...taskCategory].map((item,index) => (
-                                <CustomCategoryButton key={index} selectedCategory={selectedCategory} category={item} color={color} image={image} setColor={setColor} setCategory={setCategory} setImage={setImage}/>
+                                <CustomCategoryButton key={index} selectedCategory={currentChosenCategory} category={item} color={currentChosenColor} image={currentChosenImage} setColor={setCurrentChosenColor} setCategory={setCurrentChosenCategory} setImage={setCurrentChosenImage}/>
                             ))}
                             <Pressable style={styles.addNewCategoryContainer} onPress={() => {setAddCategoryModal(true)}}>
                                 <View style={styles.addNewCategoryImageContainer}>
@@ -55,13 +57,21 @@ const EditTaskCategoryModal = ({visible,setModalVisible,selectedCategory,setCate
                         </Pressable>
                     </View>
                 </View>
-            </View>
+            </View></View>
             <CreateNewCategory visible={addCategoryModal} setModalVisible={setAddCategoryModal} addNewCategory={setTaskCategory}/>
         </CustomModal>
     )
 }
 
 const styles = StyleSheet.create({
+    modalWrapper: {
+        flex: 1,
+        alignSelf: 'center',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%',
+        backgroundColor: '#00000067',
+    },
     container: {
         marginVertical: 100,
         flex: 1,

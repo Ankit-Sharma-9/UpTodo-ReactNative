@@ -1,17 +1,19 @@
-import { Image, Pressable, StyleSheet, Text, View,ScrollView } from "react-native"
+import { Image, Pressable, StyleSheet, Text, View } from "react-native"
 import CustomModal from "../CustomModal";
-import { useCurrentTaskContext } from "../../context/CurrentTaskContext";
 import { useState } from "react";
-import { useUserTasksContext } from "../../context/UserTasksContext";
 import Colors from "../../assets/Colors";
 import { convertYYYYMMDDtoDDMMM } from "../../utils/utils";
 import EditTaskTitleModal from "./EditTaskModals/EditTaskTitleModal";
 import EditTaskCategoryModal from "./EditTaskModals/EditTaskCategoryModal";
+import EditTaskPriorityModal from "./EditTaskModals/EditTaskPriorityModal";
+import DeleteTaskModal from "./EditTaskModals/DeleteTaskModal";
+import EditTaskTimeModal from "./EditTaskModals/EditTaskTimeModal";
+import { useUserTasksContext } from "../../context/UserTasksContext";
 
 
 
 const EditTaskModal = ({visible,setModalVisible,id,taskHour,taskMinute,taskTitle,taskDescription,taskCategory,taskPriority,taskColor,taskImage,taskDate,isCompleted}) => {
-    const {tasks,toggleTaskComplete} = useUserTasksContext()
+    const { updateTask } = useUserTasksContext();
 
     const [title,setTitle] = useState(taskTitle);
     const [description,setDescription] = useState(taskDescription);
@@ -27,7 +29,8 @@ const EditTaskModal = ({visible,setModalVisible,id,taskHour,taskMinute,taskTitle
     const [openEditTimeModal,setOpenEditTimeModal] = useState(false);
     const [openEditPriorityModal,setOpenEditPriorityModal] = useState(false);
     const [openEditCategoryModal,setOpenEditCategoryModal] = useState(false);
-    
+    const [openDeleteTaskModal,setOpenDeleteTaskModal] = useState(false);
+
     const ResetCurrentEditsAndGoback = () => {
         ResetCurrentEdits()
         setModalVisible(false);
@@ -46,6 +49,22 @@ const EditTaskModal = ({visible,setModalVisible,id,taskHour,taskMinute,taskTitle
     }
 
     const EditTask = () => {
+        const updatedTask = {
+            id,
+            title,
+            description,
+            taskDate: date,
+            taskHour: hour,
+            taskMinute: minute,
+            taskPriority: priority,
+            taskCategory: category,
+            color,  
+            image, 
+            isCompleted: isCompleted
+        }
+        console.log(updatedTask);
+        updateTask(updatedTask);
+        // console.log({id,category,color,date,description,hour,minute,priority,title});
         setModalVisible(false);
     }
 
@@ -85,8 +104,8 @@ const EditTaskModal = ({visible,setModalVisible,id,taskHour,taskMinute,taskTitle
                             <Image source={require('../../assets/images/Icons/timer-icon.png')}/>
                             <Text style={styles.taskDescriptionStyle}>Task Time: </Text>
                         </View>
-                        <Pressable style={{padding: 12,marginRight: 24,backgroundColor: Colors.DEFAULT_BACKGROUND_SECONDARY,borderRadius:4}}>
-                            <Text style={styles.buttonTextStyle}>{convertYYYYMMDDtoDDMMM(date)} at {hour}:{minute < 10 && '0'}{minute}</Text>
+                        <Pressable style={{padding: 12,marginRight: 24,backgroundColor: Colors.DEFAULT_BACKGROUND_SECONDARY,borderRadius:4}} onPress={() => setOpenEditTimeModal(true)}>
+                            <Text style={styles.buttonTextStyle}>{date !== undefined && convertYYYYMMDDtoDDMMM(date)} at {hour}:{minute < 10 && '0'}{minute}</Text>
                         </Pressable>
                     </View>
                     <View style={styles.taskAttributeRow}>
@@ -95,7 +114,7 @@ const EditTaskModal = ({visible,setModalVisible,id,taskHour,taskMinute,taskTitle
                             <Text style={styles.taskDescriptionStyle}>Task Category: </Text>
                         </View>
                         <Pressable style={{padding: 12,marginRight: 24,backgroundColor: Colors.DEFAULT_BACKGROUND_SECONDARY,borderRadius:4,flexDirection:'row',alignItems:'center',gap:12}} onPress={() => setOpenEditCategoryModal(true)}>
-                            <Image style={styles.buttonImage} source={require('../../assets/images/Category/design.png')}/>
+                            <Image style={styles.buttonImage} source={image}/>
                             <Text style={styles.buttonTextStyle}>{category}</Text>
                         </Pressable>
                     </View>
@@ -104,7 +123,8 @@ const EditTaskModal = ({visible,setModalVisible,id,taskHour,taskMinute,taskTitle
                             <Image source={require('../../assets/images/Icons/flag-icon.png')}/>
                             <Text style={styles.taskDescriptionStyle}>Task Priority: </Text>
                         </View>
-                        <Pressable style={{padding: 12,marginRight: 24,backgroundColor: Colors.DEFAULT_BACKGROUND_SECONDARY,borderRadius:4}}>
+                        <Pressable style={{padding: 12,marginRight: 24,backgroundColor: Colors.DEFAULT_BACKGROUND_SECONDARY,borderRadius:4,flexDirection:'row',alignItems:'center',gap:12}} onPress={() => setOpenEditPriorityModal(true)}>
+                            <Image style={styles.buttonImage} source={require('../.././assets/images/Icons/flag-icon.png')}/>
                             <Text style={styles.buttonTextStyle}>{priority}</Text>
                         </Pressable>
                     </View>
@@ -117,7 +137,7 @@ const EditTaskModal = ({visible,setModalVisible,id,taskHour,taskMinute,taskTitle
                             <Text style={styles.buttonTextStyle}>Add Sub-Task</Text>
                         </Pressable>
                     </View>
-                    <Pressable style={{marginTop: 24}}>
+                    <Pressable style={{marginTop: 24}} onPress={() => {setOpenDeleteTaskModal(true)}}>
                         <View style={{flexDirection: 'row',marginLeft: 24,gap:12}}>
                             <Image source={require('../../assets/images/Icons/trash.png')}/>
                             <Text style={{fontSize: 18,color: '#FF4949'}}>Delete Task</Text>
@@ -130,7 +150,10 @@ const EditTaskModal = ({visible,setModalVisible,id,taskHour,taskMinute,taskTitle
                 </Pressable>
             </View>
             <EditTaskTitleModal visible={openEditTitleModal} setVisible={setOpenEditTitleModal} title={title} setTitle={setTitle} description={description} setDescription={setDescription}/>
-            <EditTaskCategoryModal visible={openEditCategoryModal} setModalVisible={setOpenEditCategoryModal} selectedCategory={category} setCategory={setCategory} color={color} setColor={setColor} image={image} setImage={setImage}/>
+            <EditTaskCategoryModal visible={openEditCategoryModal} mainCategory={taskCategory} mainColor={taskColor} mainImage={taskImage} setModalVisible={setOpenEditCategoryModal} selectedCategory={category} setCategory={setCategory} color={color} setColor={setColor} image={image} setImage={setImage}/>
+            <EditTaskPriorityModal visible={openEditPriorityModal} setModalVisible={setOpenEditPriorityModal} mainPriority={taskPriority} taskPriority={taskPriority} setPriority={setPriority}/>
+            {openEditTimeModal && <EditTaskTimeModal setModalVisible={setOpenEditTimeModal} setDate={setDate} setHour={setHour} setMinute={setMinute}/>}
+            <DeleteTaskModal visible={openDeleteTaskModal} setModalVisible={setOpenDeleteTaskModal} id={id} taskTitle={taskTitle}/>
         </CustomModal>
     )
 }
