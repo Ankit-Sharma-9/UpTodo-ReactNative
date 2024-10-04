@@ -1,4 +1,4 @@
-import { Button, Image, Modal, Pressable, StyleSheet, Text, View } from "react-native"
+import { ActivityIndicator, Button, Image, Modal, Pressable, StyleSheet, Text, View } from "react-native"
 import ProfilePicture from "../../components/ProfilePicture"
 import { useAuthContext } from "../../context/UserAuthContext"
 import { ScrollView } from "react-native-gesture-handler";
@@ -8,28 +8,62 @@ import AppSettingsModal from "../../components/ProfileScreen/AppSettingsModal";
 import ChangeAccountPasswordModal from "../../components/ProfileScreen/ChangeAccountPasswordModal";
 import ChangeAccountNameModal from "../../components/ProfileScreen/ChangeAccountNameModal";
 import ChangeAccountImageModal from "../../components/ProfileScreen/ChangeAccountImageModal";
+import { FIREBASE_AUTH } from "../../FirebaseConfig";
+import { signOut } from "firebase/auth";
 
 const UserProfileScreen = () => {
-    const { user } = useAuthContext();
+    const { user,setUser } = useAuthContext();
     const [openAppSettingsModal,setOpenAppSettingsModal] = useState(false);
     const [openChangePasswordModal,setOpenChnagePasswordModal] = useState(false);
     const [openChangeAccountNameModal,setOpenChnageAccountNameModal] = useState(false);
     const [openChangeAccountImageModal,setOpenChangeAccountImageModal] = useState(false)
+    const [loading,setLoading] = useState(false);
 
+    const auth = FIREBASE_AUTH
+
+    const useSignOut = async() => {
+        setLoading(true);
+        console.log("Sign out");
+        try {
+            setUser(null)
+            console.log(user)
+            await signOut(auth);
+        }
+        catch(error) {
+            console.log(error)
+            alert("Failed")
+        }
+        finally {
+            setLoading(false);
+        }
+    }
+
+    if(loading) {
+        return (
+            <ActivityIndicator
+                size="large" 
+                color="#fff" 
+                style={{
+                    backgroundColor: '#121212',
+                    flex: 1
+                }} 
+            />
+        )
+    }
 
     return (
         <ScrollView style={{flex: 1, backgroundColor:"#121212"}}>
             <View style={styles.container}>
-
                 <Text 
-                style={{
-                    color: '#ffffffde',
-                    fontSize: 20, 
-                    lineHeight: 20,
-                    textAlign: 'center',
-                    letterSpacing: -0.5,
-                    marginVertical: 24
-                    }}>
+                    style={{
+                        color: '#ffffffde',
+                        fontSize: 20, 
+                        lineHeight: 20,
+                        textAlign: 'center',
+                        letterSpacing: -0.5,
+                        marginVertical: 24
+                    }}
+                >
                     Profile
                 </Text>
                 <ProfilePicture 
@@ -118,10 +152,24 @@ const UserProfileScreen = () => {
                             buttonIcon={require('../../assets/images/Icons/like-icon.png')}
                             buttonText='Support US' 
                         />
-                        <ProfileButton 
-                            buttonIcon={require('../../assets/images/Icons/logout-icon.png')} 
-                            buttonText='Log out' color={"#FF4949"} showRightIcon={false}
-                        />    
+                        <Pressable
+                            style={styles.logoutButtonContainer}
+                            onPress={useSignOut}
+                        >
+                            <View style={{flexDirection: 'row',gap:12}}>
+                                <Image source={require('../../assets/images/Icons/logout-icon.png')}/>
+                                <Text
+                                    style={{
+                                        color: '#FF4949',
+                                        fontSize: 16,
+                                        lineHeight: 24,
+                                        fontWeight: '400',
+                                    }}
+                                >
+                                    Log Out
+                                </Text>
+                            </View>
+                        </Pressable>
                     </View>
                 </View>
             </View>
@@ -160,6 +208,13 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontSize: 16,
         lineHeight: 24,
+    },
+    logoutButtonContainer: {
+        width: '86%',
+        height: 48,
+        flexDirection: 'row',
+        alignItems: "center",
+        justifyContent: 'space-between',
     },
 })
 

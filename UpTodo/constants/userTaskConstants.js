@@ -189,8 +189,8 @@ export const userTasks = [
         taskHour: 15,
         taskMinute: 0,
         taskPriority: 2,
-        taskCategory: 'University',
-        color: '#809cff',
+        taskCategory: 'Work',
+        color: '#ff9680',
         image: require('.././assets/images/Category/mortarboard.png'),
         isCompleted: 0
     },

@@ -151,7 +151,8 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         fontSize: 32,
         paddingTop: 6,
-        lineHeight: 38.4
+        lineHeight: 38.4,
+        marginBottom: 24,
     },
     inputContainer: {
         gap: 12,
@@ -180,6 +181,7 @@ const styles = StyleSheet.create({
         borderRadius: 4,
         paddingHorizontal: 24,
         paddingVertical: 12,
+        marginTop: 64,
         backgroundColor: '#8875ff',
         color: '#fff',
         fontSize: 16,
@@ -217,6 +219,7 @@ const styles = StyleSheet.create({
     disabledPressableButton: {
         borderRadius: 4,
         paddingHorizontal: 24,
+        marginTop: 64,
         paddingVertical: 12,
         backgroundColor: '#8687E780',
         color: '#fff',

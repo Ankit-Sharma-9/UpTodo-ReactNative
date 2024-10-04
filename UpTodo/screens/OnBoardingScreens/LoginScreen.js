@@ -102,6 +102,7 @@ const LoginScreen = ({navigation}) => {
                         </Pressable>
                     </View>
                 </View>
+            </View>
                 <View style={{flexDirection: 'row',alignItems: 'center',justifyContent: 'center',margin: 24}}>
                     <Text style={{fontSize: 12,lineHeight: 18,fontWeight: '400',color: '#ffffffde'}}>Don't have an account? </Text>
                     <Pressable onPress={() => {navigation.navigate('register-screen')}} style={{alignItems: 'center'}}>
@@ -110,7 +111,6 @@ const LoginScreen = ({navigation}) => {
                         </Text>
                     </Pressable>
                 </View>
-            </View>
         </View>
     )
 }
@@ -120,11 +120,10 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#121212',
         alignItems: 'center',
-        justifyContent: 'space-between',
+        justifyContent: 'center'
     },
     loginContentStyle: {
         flex: 1,
-        justifyContent: 'space-between',
         width: '86%'
     },
     textHeaderStyle: {
@@ -132,7 +131,8 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         fontSize: 32,
         paddingTop: 12,
-        lineHeight: 38.4
+        lineHeight: 38.4,
+        marginBottom: 24,
     },
     inputContainer: {
         gap: 12,
@@ -161,6 +161,7 @@ const styles = StyleSheet.create({
         borderRadius: 4,
         paddingHorizontal: 24,
         paddingVertical: 12,
+        marginTop: 64,
         backgroundColor: '#8875ff',
         color: '#fff',
         fontSize: 16,
@@ -196,6 +197,7 @@ const styles = StyleSheet.create({
         fontWeight: '400'
     },
     disabledPressableButton: {
+        marginTop: 64,
         borderRadius: 4,
         paddingHorizontal: 24,
         paddingVertical: 12,
